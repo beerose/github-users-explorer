@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "react-app",
+    "plugin:jsx-a11y/recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "plugins": [
+    "jsx-a11y",
+    "sonarjs"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "ecmaFeatures": {
+    "jsx": true
+  }
+}
