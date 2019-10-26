@@ -1,14 +1,33 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/core";
-import { Global, css } from "@emotion/core";
-import { ThemeProvider, styled } from "./theme";
-import { SearchInput } from "./components/SearchInput";
+import { Global, jsx, css } from "@emotion/core";
 import { useState, useEffect, StrictMode } from "react";
+
+import { githubClient } from "./githubClient";
+import { SearchInput } from "./components/SearchInput";
+import { ThemeProvider, styled } from "./theme";
 
 const Main = () => {
   const [username, setUsername] = useState("");
+  const [user, setUser] = useState<githubClient.User>();
 
-  useEffect(() => {}, [username]);
+  useEffect(() => {
+    if (!username) {
+      return;
+    }
+
+    githubClient.users
+      .getByUsername({
+        username,
+      })
+      .then(response => {
+        console.log(response);
+        setUser(response.data);
+      })
+      .catch(error => {
+        // TODO: Handle me
+        console.error(error);
+      });
+  }, [username]);
 
   return (
     <StyledRoot>
@@ -25,11 +44,12 @@ const Main = () => {
           onReset={() => setUsername("")}
         />
       </div>
+      {JSON.stringify(user, null, 2)}
     </StyledRoot>
   );
 };
 
-const StyledRoot = styled.div`
+const StyledRoot = styled.main`
   background: ${props => props.theme.colors.background};
   color: ${props => props.theme.colors.text};
   height: 100%;
@@ -49,6 +69,10 @@ export const App = () => {
             body,
             #root {
               height: 100%;
+            }
+
+            * {
+              box-sizing: border-box;
             }
           `}
         />
