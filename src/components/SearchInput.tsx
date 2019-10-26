@@ -68,9 +68,12 @@ const Input = styled.input`
   }
 `;
 
-type SearchInputProps = ComponentProps<"input">;
+interface SearchInputProps extends Omit<ComponentProps<"input">, "onReset"> {
+  onReset: () => void;
+}
 export const SearchInput: React.FC<SearchInputProps> = ({
   className,
+  onReset,
   ...inputProps
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -88,7 +91,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         `}
       />
       <Input ref={inputRef} {...inputProps} />
-      <ClearInputButton />
+      <ClearInputButton onClick={onReset} />
     </Label>
   );
 };

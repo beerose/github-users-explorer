@@ -20,6 +20,7 @@ const Main = () => {
           placeholder="Search GitHub users"
           value={username}
           onChange={ev => setUsername(ev.target.value)}
+          onReset={() => setUsername("")}
         />
       </div>
     </StyledRoot>
