@@ -7,19 +7,16 @@ import { transparentize } from "polished";
 import { useFocus } from "../utils/useFocus";
 
 import { XIcon } from "./XIcon";
+import { Button } from "./Button";
 
 type ClearInputButtonProps = ComponentProps<"button">;
 const ClearInputButton: React.FC<ClearInputButtonProps> = props => {
   const { colors } = useTheme();
 
   return (
-    <button
-      type="reset"
+    <Button
       title="Clear input"
       css={css`
-        border: none;
-        background: none;
-        cursor: pointer;
         color: ${colors.text};
         opacity: 0.5;
 
@@ -33,7 +30,7 @@ const ClearInputButton: React.FC<ClearInputButtonProps> = props => {
       {...props}
     >
       <XIcon />
-    </button>
+    </Button>
   );
 };
 type StyledLabelProps = { inputFocused: boolean };
@@ -49,7 +46,8 @@ const Label = styled.label<StyledLabelProps>`
   ${props =>
     props.inputFocused &&
     css`
-      box-shadow: 0 0 15px 1px ${transparentize(0.95, props.theme.colors.text)};
+      box-shadow: 0 0 15px 1px ${transparentize(0.95, props.theme.colors.text)},
+        0 0 1px 1px ${transparentize(0.88, props.theme.colors.text)};
     `};
 `;
 

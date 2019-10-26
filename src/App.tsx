@@ -3,10 +3,12 @@ import { jsx } from "@emotion/core";
 import { Global, css } from "@emotion/core";
 import { ThemeProvider, styled } from "./theme";
 import { SearchInput } from "./components/SearchInput";
-import { useState } from "react";
+import { useState, useEffect, StrictMode } from "react";
 
 const Main = () => {
   const [username, setUsername] = useState("");
+
+  useEffect(() => {}, [username]);
 
   return (
     <StyledRoot>
@@ -36,20 +38,22 @@ const StyledRoot = styled.div`
 
 export const App = () => {
   return (
-    <ThemeProvider>
-      <Global
-        styles={css`
-          body {
-            margin: 0;
-          }
-          html,
-          body,
-          #root {
-            height: 100%;
-          }
-        `}
-      />
-      <Main />
-    </ThemeProvider>
+    <StrictMode>
+      <ThemeProvider>
+        <Global
+          styles={css`
+            body {
+              margin: 0;
+            }
+            html,
+            body,
+            #root {
+              height: 100%;
+            }
+          `}
+        />
+        <Main />
+      </ThemeProvider>
+    </StrictMode>
   );
 };
