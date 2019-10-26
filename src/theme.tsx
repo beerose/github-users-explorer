@@ -8,8 +8,11 @@ import emotionStyled, { CreateStyled } from "@emotion/styled";
 const themeSpec = {
   colorModes: {
     default: {
-      text: "#1a110f",
-      background: "#e4f2f7",
+      text: "#0A090C",
+      background: "#F0EDEE",
+      primary: "#1D4B4D",
+      primaryDark: "#07393C",
+      secondary: "#DCCFEC",
     },
     inverted: {
       text: "#e4f2f7",
@@ -22,6 +25,7 @@ type ThemeSpec = typeof themeSpec;
 type ColorMode = keyof ThemeSpec["colorModes"];
 interface Theme extends Omit<ThemeSpec, "colorModes"> {
   colors: ThemeSpec["colorModes"][ColorMode];
+  colorMode: ColorMode;
   setColorMode: (colorMode: ColorMode) => void;
 }
 
