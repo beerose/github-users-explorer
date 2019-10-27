@@ -62,7 +62,7 @@ const makeUserErrorState = (username: string, error: unknown): ErrorState => ({
     if (github.isHTTPError(err)) {
       switch (err.status) {
         case 404:
-          return `${username} was not found.`;
+          return `${username} was not found`;
         case 403:
           return "API rate limit exceeded. Try again later";
       }
@@ -77,9 +77,9 @@ const makeReposErrorState = (username: string, error: unknown): ErrorState => ({
     if (github.isHTTPError(err)) {
       switch (err.status) {
         case 403:
-          return "API rate limit exceeded. Try again later.";
+          return "API rate limit exceeded. Try again later";
         case 422:
-          return `${username} doesn’t have any public repositories yet.`;
+          return `${username} doesn’t have any public repositories yet`;
       }
     }
     return null;
@@ -95,8 +95,10 @@ export const Main = ({ getUser = github.getUser }: MainProps) => {
     if (!username) {
       return;
     }
+
     let cancelled = false;
     const { userPromise, getRepositories } = getUser(username);
+
     userPromise
       .then(response => {
         if (!cancelled) {
@@ -108,13 +110,17 @@ export const Main = ({ getUser = github.getUser }: MainProps) => {
           setReposState({ type: "loading" });
           getRepositories()
             .then(reposResponse => {
-              setReposState({
-                type: "present",
-                repos: reposResponse.data.items,
-              });
+              if (!cancelled) {
+                setReposState({
+                  type: "present",
+                  repos: reposResponse.data.items,
+                });
+              }
             })
             .catch(error => {
-              setReposState(makeReposErrorState(username, error));
+              if (!cancelled) {
+                setReposState(makeReposErrorState(username, error));
+              }
             });
         }
       })
