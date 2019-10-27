@@ -1,13 +1,14 @@
 /** @jsx jsx */
 import React, { ComponentProps, useRef } from "react";
 import { css, jsx } from "@emotion/core";
-import { SearchIcon } from "./SearchIcon";
+
 import { styled, useTheme } from "../theme";
 import { transparentize } from "polished";
-import { useFocus } from "../utils/useFocus";
+import { useFocus } from "../utils";
 
-import { XIcon } from "./XIcon";
 import { Button } from "./Button";
+import { SearchIcon } from "./SearchIcon";
+import { XIcon } from "./XIcon";
 
 type ClearInputButtonProps = ComponentProps<"button">;
 const ClearInputButton: React.FC<ClearInputButtonProps> = props => {

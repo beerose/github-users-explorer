@@ -1,9 +1,38 @@
-import React from "react";
-
-import * as github from "../githubClient";
-import { styled } from "../theme";
+/** @jsx jsx */
+import { css, jsx } from "@emotion/core";
+import { ComponentProps } from "react";
 import { transparentize } from "polished";
+
+import { prefixWithHttps } from "../utils";
+import { styled, useTheme } from "../theme";
+import * as github from "../githubClient";
+
 import { RepositoryDetails } from "./RepositoryDetails";
+import { User } from "../types";
+
+const UserInfoList = "ul";
+const UserInfoListItem: React.FC<ComponentProps<"li">> = props =>
+  props.children ? <li {...props} /> : null;
+
+interface UserWebsiteLinkProps
+  extends Omit<ComponentProps<"a">, "href" | "children"> {
+  url: string;
+}
+const UserWebsiteLink = ({ url, ...rest }: UserWebsiteLinkProps) => {
+  const { colors } = useTheme();
+
+  return url ? (
+    <a
+      href={prefixWithHttps(url)}
+      css={css`
+        color: ${colors.primary};
+      `}
+      {...rest}
+    >
+      {url}
+    </a>
+  ) : null;
+};
 
 const Avatar = styled.img`
   border-radius: 50%;
@@ -25,7 +54,7 @@ const UserDetailsHeader = styled.header`
   }
 `;
 
-const Login = styled.a`
+const UserLogin = styled.a`
   text-decoration: none;
 
   color: ${props => transparentize(0.5, props.theme.colors.text)};
@@ -35,7 +64,7 @@ const Login = styled.a`
   }
 `;
 
-const Bio = styled.section`
+const Bio = styled.p`
   margin: 1.5em;
   max-width: 20em;
   text-align: center;
@@ -47,7 +76,7 @@ const Repositories = styled.div`
 `;
 
 interface UserDetailsProps {
-  user: github.User;
+  user: User;
   repos: github.Repository[];
 }
 export const UserDetails = ({ user, repos }: UserDetailsProps) => {
@@ -56,11 +85,18 @@ export const UserDetails = ({ user, repos }: UserDetailsProps) => {
       <Avatar src={user.avatar_url} alt="User avatar" />
       <UserDetailsHeader>
         <h2>{user.name}</h2>
-        <Login href={user.html_url} target="__blank">
+        <UserLogin href={user.html_url} target="__blank">
           {user.login}
-        </Login>
+        </UserLogin>
       </UserDetailsHeader>
       <Bio>{user.bio}</Bio>
+      <UserInfoList>
+        <UserInfoListItem>{user.company}</UserInfoListItem>
+        <UserInfoListItem>{user.location}</UserInfoListItem>
+        <UserInfoListItem>
+          <UserWebsiteLink url={user.blog} />
+        </UserInfoListItem>
+      </UserInfoList>
       <Repositories>
         {repos.map(repo => (
           <RepositoryDetails repository={repo} />
