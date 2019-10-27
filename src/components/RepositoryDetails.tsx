@@ -26,14 +26,18 @@ const RepositoryLink = styled.a`
     box-shadow: 0 0 10px 1px ${({ theme }) => theme.colors.text09};
   }
 
+  h3,
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   h3 {
     margin: 0.5em 0;
   }
 
   p {
     margin: 10px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
     color: ${({ theme }) => theme.colors.text05};
   }
 `;
