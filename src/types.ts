@@ -11,3 +11,8 @@ export type User = Pick<
   | "login"
   | "name"
 >;
+
+export type Repository = Pick<
+  github.Repository,
+  "html_url" | "description" | "stargazers_count" | "name"
+>;

@@ -1,11 +1,11 @@
 import React from "react";
 
-import * as github from "../githubClient";
 import { styled } from "../theme";
 
 import { StarIcon } from "./StarIcon";
+import { Repository } from "../types";
 
-const Repository = styled.a`
+const RepositoryLink = styled.a`
   display: flex;
   flex-direction: column;
   border: 1px solid ${({ theme }) => theme.colors.text09};
@@ -50,19 +50,19 @@ const StarsDetails = styled.div`
 `;
 
 type RepositoryDetailsProps = {
-  repository: github.Repository;
+  repository: Repository;
 };
 export const RepositoryDetails: React.FC<RepositoryDetailsProps> = ({
   repository,
 }) => {
   return (
-    <Repository href={repository.html_url} target="__blank">
+    <RepositoryLink href={repository.html_url}>
       <StarsDetails>
         <StarIcon />
         {repository.stargazers_count}
       </StarsDetails>
       <h3>{repository.name}</h3>
       <p>{repository.description}</p>
-    </Repository>
+    </RepositoryLink>
   );
 };

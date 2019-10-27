@@ -5,10 +5,9 @@ import { transparentize } from "polished";
 
 import { prefixWithHttps } from "../utils";
 import { styled, useTheme } from "../theme";
-import * as github from "../githubClient";
 
 import { RepositoryDetails } from "./RepositoryDetails";
-import { User } from "../types";
+import { User, Repository } from "../types";
 
 const UserInfoList = "ul";
 const UserInfoListItem: React.FC<ComponentProps<"li">> = props =>
@@ -77,7 +76,7 @@ const Repositories = styled.div`
 
 interface UserDetailsProps {
   user: User;
-  repos: github.Repository[];
+  repos: Repository[];
 }
 export const UserDetails = ({ user, repos }: UserDetailsProps) => {
   return (
@@ -85,9 +84,7 @@ export const UserDetails = ({ user, repos }: UserDetailsProps) => {
       <Avatar src={user.avatar_url} alt="User avatar" />
       <UserDetailsHeader>
         <h2>{user.name}</h2>
-        <UserLogin href={user.html_url} target="__blank">
-          {user.login}
-        </UserLogin>
+        <UserLogin href={user.html_url}>{user.login}</UserLogin>
       </UserDetailsHeader>
       <Bio>{user.bio}</Bio>
       <UserInfoList>
@@ -99,7 +96,7 @@ export const UserDetails = ({ user, repos }: UserDetailsProps) => {
       </UserInfoList>
       <Repositories>
         {repos.map(repo => (
-          <RepositoryDetails repository={repo} />
+          <RepositoryDetails key={repo.name} repository={repo} />
         ))}
       </Repositories>
     </UserDetailsSection>

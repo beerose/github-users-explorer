@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserDetails matches snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="css-chsl2o"
+  >
+    <img
+      alt="User avatar"
+      class="css-8jrh0l"
+      src="https://avatars0.githubusercontent.com/u/4226954?s=400&v=4"
+    />
+    <header
+      class="css-1i6qyll"
+    >
+      <h2>
+        Anders Hejlsberg
+      </h2>
+      <a
+        class="css-1ceuyr5"
+        href="https://github.com/ahejlsberg"
+      >
+        ahejlsberg
+      </a>
+    </header>
+    <p
+      class="css-g6ecle"
+    >
+      Microsoft Technical Fellow and lead architect of TypeScript. Original designer of C#, Delphi, and Turbo Pascal.
+    </p>
+    <ul>
+      <li>
+        Microsoft
+      </li>
+      <li>
+        Redmond, WA, USA
+      </li>
+      <li />
+    </ul>
+    <div
+      class="css-rtde4j"
+    >
+      <a
+        class="css-5r94d3"
+        href="https://github.com/ahejlsberg/typescript-build2016-demos"
+      >
+        <div
+          class="css-1p91yv2"
+        >
+          <svg
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path
+              d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"
+            />
+          </svg>
+          64
+        </div>
+        <h3>
+          typescript-build2016-demos
+        </h3>
+        <p>
+          Collection of TypeScript demo projects form //build 2016
+        </p>
+      </a>
+    </div>
+  </section>
+</DocumentFragment>
+`;
