@@ -4,11 +4,14 @@ import {
   useTheme as useThemeEmotion,
 } from "emotion-theming";
 import emotionStyled, { CreateStyled } from "@emotion/styled";
+import { transparentize } from "polished";
 
 const themeSpec = {
   colorModes: {
     default: {
       text: "#0A090C",
+      text09: transparentize(0.9, "#0A090C"),
+      text05: transparentize(0.5, "#0A090C"),
       background: "#F0EDEE",
       primary: "#1D4B4D",
       primaryDark: "#07393C",
@@ -16,7 +19,12 @@ const themeSpec = {
     },
     inverted: {
       text: "#e4f2f7",
+      text09: transparentize(0.9, "#e4f2f7"),
+      text05: transparentize(0.5, "#e4f2f7"),
       background: "#1a110f",
+      primary: "#1D4B4D",
+      primaryDark: "#07393C",
+      secondary: "#DCCFEC",
     },
   },
 };

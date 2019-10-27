@@ -3,6 +3,7 @@ import React from "react";
 import * as github from "../githubClient";
 import { styled } from "../theme";
 import { transparentize } from "polished";
+import { RepositoryDetails } from "./RepositoryDetails";
 
 const Avatar = styled.img`
   border-radius: 50%;
@@ -20,13 +21,18 @@ const UserDetailsHeader = styled.header`
   text-align: center;
 
   h2 {
-    margin-bottom: 0;
+    margin-bottom: 0.2em;
   }
 `;
 
-const Login = styled.p`
-  margin: 0.3em;
+const Login = styled.a`
+  text-decoration: none;
+
   color: ${props => transparentize(0.5, props.theme.colors.text)};
+
+  ::before {
+    content: "@";
+  }
 `;
 
 const Bio = styled.section`
@@ -35,7 +41,10 @@ const Bio = styled.section`
   text-align: center;
 `;
 
-const Repository = styled.div``;
+const Repositories = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 interface UserDetailsProps {
   user: github.User;
@@ -47,12 +56,16 @@ export const UserDetails = ({ user, repos }: UserDetailsProps) => {
       <Avatar src={user.avatar_url} alt="User avatar" />
       <UserDetailsHeader>
         <h2>{user.name}</h2>
-        <Login>@{user.login}</Login>
+        <Login href={user.html_url} target="__blank">
+          {user.login}
+        </Login>
       </UserDetailsHeader>
       <Bio>{user.bio}</Bio>
-      {repos.map(repo => (
-        <Repository>{repo.name}</Repository>
-      ))}
+      <Repositories>
+        {repos.map(repo => (
+          <RepositoryDetails repository={repo} />
+        ))}
+      </Repositories>
     </UserDetailsSection>
   );
 };
