@@ -149,7 +149,7 @@ export const UserDetails = ({ user, repos }: UserDetailsProps) => {
             {user.location}
           </UserInfoListItem>
           <UserInfoListItem Icon={WebsiteIcon}>
-            <UserWebsiteLink url={user.blog} />
+            {user.blog && <UserWebsiteLink url={user.blog} />}
           </UserInfoListItem>
         </UserInfoList>
       </UserInfoPanel>

@@ -7,6 +7,7 @@ import * as github from "./githubClient";
 import { SearchInput } from "./components/SearchInput";
 import { ThemeProvider, styled } from "./theme";
 import { UserDetails } from "./components/UserDetails";
+import { Loader } from "./components/Loading";
 
 // const _getUser = throttle(github.getUser, 5, 1000);
 const _getUser = github.getUser;
@@ -62,7 +63,6 @@ const Main = ({ getUser = _getUser }: MainProps) => {
     const { userPromise, getRepositories } = getUser(username);
     userPromise
       .then(response => {
-        console.log(response);
         if (!cancelled) {
           setUserState({
             type: "present",
@@ -124,12 +124,12 @@ const Main = ({ getUser = _getUser }: MainProps) => {
         />
       </div>
       {userState.type === "didnt-ask" && null}
-      {userState.type === "loading" && `Fetching ${username}...`}
+      {userState.type === "loading" ||
+        (reposState.type === "loading" && <Loader />)}
+      {userState.type === "error" && `${username} not found`}
       {userState.type === "present" && reposState.type === "present" && (
         <UserDetails user={userState.user} repos={reposState.repos} />
       )}
-      {userState.type === "error" && `${username} not found`}
-      {reposState.type === "loading" && `${username} respoistoried loading`}
     </StyledRoot>
   );
 };
