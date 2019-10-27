@@ -19,4 +19,10 @@ describe("RepositoryDetails", () => {
 
     expect(getByRole("link")).toHaveAttribute("href", repo.html_url);
   });
+
+  it("matches snapshots", () => {
+    const { asFragment } = render(<RepositoryDetails repository={repo} />);
+
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

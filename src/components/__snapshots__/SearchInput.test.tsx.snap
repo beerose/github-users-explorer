@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchInput matches snapshot 1`] = `
+<DocumentFragment>
+  <label
+    class="css-kqqiw6"
+  >
+    <svg
+      class="css-jyxcdo"
+      fill="none"
+      height="100%"
+      stroke="rgba(10,9,12,0.5)"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="1em"
+    >
+      <mask
+        id="SearchIcon_clipPath"
+      >
+        <rect
+          fill="white"
+          height="100%"
+          width="100%"
+          x="0"
+          y="0"
+        />
+        <circle
+          cx="11"
+          cy="11"
+          fill="black"
+          r="8"
+          stroke="black"
+        />
+      </mask>
+      <circle
+        cx="11"
+        cy="11"
+        r="8"
+      />
+      <path
+        d="M21 21L16.65 16.65"
+        mask="url(#SearchIcon_clipPath)"
+      />
+    </svg>
+    <input
+      class="css-xi6tab"
+      value="jondoe"
+    />
+    <button
+      class="css-1aktd5y-ClearInputButton"
+      title="Clear input"
+    >
+      <svg
+        class="feather feather-x"
+        fill="none"
+        height="1em"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <path
+          d="M18 6L6 18 M6 6L18 18"
+        />
+      </svg>
+    </button>
+  </label>
+</DocumentFragment>
+`;
