@@ -1,4 +1,4 @@
-import * as github from "./githubClient";
+import * as github from "./api/githubClient";
 
 export type User = Pick<
   github.User,
