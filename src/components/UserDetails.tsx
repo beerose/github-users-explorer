@@ -5,9 +5,8 @@ import { transparentize } from "polished";
 
 import { prefixWithHttps } from "../utils";
 import { styled, useTheme } from "../theme";
-import { User, Repository } from "../types";
+import { User } from "../types";
 
-import { RepositoryDetails } from "./RepositoryDetails";
 import { LocationIcon, WebsiteIcon, BriefcaseIcon } from "./icons";
 
 const userDetailsHalfStyles = css`
@@ -88,7 +87,6 @@ const UserDetailsSection = styled.section`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 2em;
 `;
 
 const UserDetailsHeader = styled.header`
@@ -113,12 +111,6 @@ const Bio = styled.p`
   ${userDetailsHalfStyles};
 `;
 
-const Repositories = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
 const UserInfoPanel = styled.div`
   display: flex;
 
@@ -129,9 +121,8 @@ const UserInfoPanel = styled.div`
 
 interface UserDetailsProps {
   user: User;
-  repos: Repository[];
 }
-export const UserDetails = ({ user, repos }: UserDetailsProps) => {
+export const UserDetails = ({ user }: UserDetailsProps) => {
   return (
     <UserDetailsSection>
       <Avatar src={user.avatar_url} alt="User avatar" />
@@ -153,11 +144,6 @@ export const UserDetails = ({ user, repos }: UserDetailsProps) => {
           </UserInfoListItem>
         </UserInfoList>
       </UserInfoPanel>
-      <Repositories>
-        {repos.map(repo => (
-          <RepositoryDetails key={repo.name} repository={repo} />
-        ))}
-      </Repositories>
     </UserDetailsSection>
   );
 };

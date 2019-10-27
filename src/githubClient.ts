@@ -9,6 +9,18 @@ export type User = Octokit.UsersGetByUsernameResponse;
 
 export type Repository = Octokit.SearchReposResponseItemsItem;
 
+export interface HTTPError extends Error {
+  documentation_url?: string;
+  request?: unknown;
+  status: number;
+}
+
+export const isHTTPError = (error: unknown): error is HTTPError => {
+  return (
+    error instanceof Error && typeof (error as HTTPError).status === "number"
+  );
+};
+
 export const getUser = (username: string) => {
   const userPromise = client.users.getByUsername({
     username,

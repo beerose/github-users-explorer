@@ -1,57 +1,60 @@
 /** @jsx jsx */
 import { Global, jsx, css } from "@emotion/core";
 import { useState, useEffect, StrictMode } from "react";
-// import throttle from "p-throttle";
 
 import * as github from "./githubClient";
 import { SearchInput } from "./components/SearchInput";
 import { ThemeProvider, styled } from "./theme";
-import { UserDetails } from "./components/UserDetails";
-import { Loader } from "./components/Loading";
+import {
+  UserDetails,
+  Loader,
+  ErrorDisplay,
+  RepositoryCards,
+} from "./components";
 
-// const _getUser = throttle(github.getUser, 5, 1000);
-const _getUser = github.getUser;
+import { ErrorMessage, User, Repository } from "./types";
+import { makeErrorMessage } from "./utils/makeErrorMessage";
+
+const Content = styled.div`
+  margin: 2em;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+type EmptyState = { type: "empty" };
+type LoadingState = { type: "loading" };
+type ErrorState = {
+  type: "error";
+  error: ErrorMessage;
+};
 
 type UserState =
-  | {
-      type: "didnt-ask";
-    }
-  | {
-      type: "loading";
-    }
+  | EmptyState
+  | LoadingState
+  | ErrorState
   | {
       type: "present";
-      user: github.User;
-    }
-  | {
-      type: "error";
-      error: Error;
+      user: User;
     };
 
 type ReposState =
-  | {
-      type: "no-user";
-    }
+  | EmptyState
+  | LoadingState
+  | ErrorState
   | {
       type: "present";
-      repos: github.Repository[];
-    }
-  | {
-      type: "loading";
-    }
-  | {
-      type: "error";
-      error: Error;
+      repos: Repository[];
     };
 
 type MainProps = {
-  getUser?: typeof _getUser;
+  getUser?: typeof github.getUser;
 };
 
-const Main = ({ getUser = _getUser }: MainProps) => {
+const Main = ({ getUser = github.getUser }: MainProps) => {
   const [username, setUsername] = useState("");
-  const [userState, setUserState] = useState<UserState>({ type: "didnt-ask" });
-  const [reposState, setReposState] = useState<ReposState>({ type: "no-user" });
+  const [userState, setUserState] = useState<UserState>({ type: "empty" });
+  const [reposState, setReposState] = useState<ReposState>({ type: "empty" });
 
   useEffect(() => {
     if (!username) {
@@ -80,7 +83,17 @@ const Main = ({ getUser = _getUser }: MainProps) => {
             .catch(error => {
               setReposState({
                 type: "error",
-                error,
+                error: makeErrorMessage(error, err => {
+                  if (github.isHTTPError(err)) {
+                    switch (err.status) {
+                      case 403:
+                        return "API rate limit exceeded. Try again later.";
+                      case 422:
+                        return `${username} doesn’t have any public repositories yet.`;
+                    }
+                  }
+                  return null;
+                }),
               });
             });
         }
@@ -89,7 +102,17 @@ const Main = ({ getUser = _getUser }: MainProps) => {
         if (!cancelled) {
           setUserState({
             type: "error",
-            error,
+            error: makeErrorMessage(error, err => {
+              if (github.isHTTPError(err)) {
+                switch (err.status) {
+                  case 404:
+                    return `${username} was not found.`;
+                  case 403:
+                    return "API rate limit exceeded. Try again later";
+                }
+              }
+              return null;
+            }),
           });
         }
       });
@@ -101,7 +124,7 @@ const Main = ({ getUser = _getUser }: MainProps) => {
 
   const handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const value = ev.target.value;
-    setUserState({ type: value ? "loading" : "didnt-ask" });
+    setUserState({ type: value ? "loading" : "empty" });
     setUsername(value);
   };
 
@@ -118,18 +141,24 @@ const Main = ({ getUser = _getUser }: MainProps) => {
           value={username}
           onChange={handleInputChange}
           onReset={() => {
-            setUserState({ type: "didnt-ask" });
+            setUserState({ type: "empty" });
             setUsername("");
           }}
         />
       </div>
-      {userState.type === "didnt-ask" && null}
-      {userState.type === "loading" ||
-        (reposState.type === "loading" && <Loader />)}
-      {userState.type === "error" && `${username} not found`}
-      {userState.type === "present" && reposState.type === "present" && (
-        <UserDetails user={userState.user} repos={reposState.repos} />
-      )}
+      <Content>
+        {userState.type === "empty" && null}
+        {userState.type === "loading" && <Loader />}
+        {userState.type === "error" && <ErrorDisplay error={userState.error} />}
+        {userState.type === "present" && <UserDetails user={userState.user} />}
+
+        {reposState.type === "present" && (
+          <RepositoryCards repositories={reposState.repos} />
+        )}
+        {reposState.type === "error" && (
+          <ErrorDisplay error={reposState.error} />
+        )}
+      </Content>
     </StyledRoot>
   );
 };
