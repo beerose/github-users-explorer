@@ -7,7 +7,6 @@ import { prefixWithHttps } from "../utils";
 import { styled, useTheme } from "../theme";
 import { User, Repository } from "../types";
 
-import { Row } from "./Row";
 import { RepositoryDetails } from "./RepositoryDetails";
 import { LocationIcon, WebsiteIcon, BriefcaseIcon } from "./icons";
 
@@ -23,6 +22,12 @@ const StyledUserInfoList = styled.ul`
 
   &:nth-child(2) {
     border-left: 1px solid ${({ theme }) => theme.colors.text09};
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+      border-left: none;
+      align-self: center;
+      margin-top: 0;
+    }
   }
 `;
 const UserInfoList = (props: ComponentProps<typeof StyledUserInfoList>) =>
@@ -114,6 +119,14 @@ const Repositories = styled.div`
   justify-content: center;
 `;
 
+const UserInfoPanel = styled.div`
+  display: flex;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    flex-direction: column;
+  }
+`;
+
 interface UserDetailsProps {
   user: User;
   repos: Repository[];
@@ -126,7 +139,7 @@ export const UserDetails = ({ user, repos }: UserDetailsProps) => {
         <h2>{user.name}</h2>
         <UserLogin href={user.html_url}>{user.login}</UserLogin>
       </UserDetailsHeader>
-      <Row>
+      <UserInfoPanel>
         {user.bio && <Bio>{user.bio}</Bio>}
         <UserInfoList>
           <UserInfoListItem Icon={BriefcaseIcon}>
@@ -139,7 +152,7 @@ export const UserDetails = ({ user, repos }: UserDetailsProps) => {
             <UserWebsiteLink url={user.blog} />
           </UserInfoListItem>
         </UserInfoList>
-      </Row>
+      </UserInfoPanel>
       <Repositories>
         {repos.map(repo => (
           <RepositoryDetails key={repo.name} repository={repo} />
