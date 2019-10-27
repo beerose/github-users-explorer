@@ -1,9 +1,9 @@
 import React from "react";
 
 import { styled } from "../theme";
-
-import { StarIcon } from "./StarIcon";
 import { Repository } from "../types";
+
+import { StarIcon } from "./icons";
 
 const RepositoryLink = styled.a`
   display: flex;

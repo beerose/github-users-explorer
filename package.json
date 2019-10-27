@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel src/index.html",
+    "typecheck": "tsc --noEmit",
     "test": "jest"
   },
   "dependencies": {
