@@ -10,12 +10,12 @@
   "dependencies": {
     "@types/lodash": "^4.14.144",
     "@types/react": "^16.9.11",
-    "@types/react-dom": "^16.0.7",
+    "@types/react-dom": "^16.9.3",
     "babel-polyfill": "^6.26.0",
     "lodash-es": "^4.17.15",
     "p-throttle": "^3.1.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.10.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "ts-toolbelt": "^4.9.1",
     "tslib": "^1.10.0"
   },
@@ -41,7 +41,6 @@
     "eslint-plugin-sonarjs": "^0.4.0",
     "jest": "^24.9.0",
     "polished": "^3.4.1",
-    "react-spinners": "^0.6.1",
     "ts-jest": "^24.1.0",
     "typescript": "^3.1.2"
   }
