@@ -27,6 +27,9 @@ const themeSpec = {
       secondary: "#DCCFEC",
     },
   },
+  breakpoints: {
+    mobile: "520px",
+  },
 };
 
 type ThemeSpec = typeof themeSpec;

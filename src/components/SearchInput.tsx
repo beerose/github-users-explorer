@@ -17,6 +17,8 @@ const ClearInputButton: React.FC<ClearInputButtonProps> = props => {
     <Button
       title="Clear input"
       css={css`
+        display: flex;
+
         color: ${colors.text};
         opacity: 0.5;
 
@@ -29,7 +31,7 @@ const ClearInputButton: React.FC<ClearInputButtonProps> = props => {
       `}
       {...props}
     >
-      <XIcon />
+      <XIcon width="1em" height="1em" />
     </Button>
   );
 };
@@ -43,21 +45,29 @@ const Label = styled.label<StyledLabelProps>`
   background: white;
   border-radius: 1.6em;
 
-  ${props =>
-    props.inputFocused &&
+  ${({ theme, inputFocused }) =>
+    inputFocused &&
     css`
-      box-shadow: 0 0 15px 1px ${transparentize(0.95, props.theme.colors.text)},
-        0 0 1px 1px ${transparentize(0.88, props.theme.colors.text)};
+      box-shadow: 0 0 15px 1px ${transparentize(0.95, theme.colors.text)},
+        0 0 1px 1px ${transparentize(0.88, theme.colors.text)};
     `};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1.2em;
+  }
 `;
 
 const Input = styled.input`
   border: none;
   outline: none;
 
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   background: none;
 
-  width: 20em;
+  flex: 1 1 0;
+
   font-size: inherit;
   line-height: 1.7;
 

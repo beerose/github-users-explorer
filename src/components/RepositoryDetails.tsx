@@ -1,6 +1,7 @@
 import React from "react";
 
 import { styled } from "../theme";
+
 import { Repository } from "../types";
 
 import { StarIcon } from "./icons";
