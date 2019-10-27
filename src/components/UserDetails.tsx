@@ -1,17 +1,58 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import { ComponentProps } from "react";
+import { ComponentProps, ComponentType } from "react";
 import { transparentize } from "polished";
 
 import { prefixWithHttps } from "../utils";
 import { styled, useTheme } from "../theme";
-
-import { RepositoryDetails } from "./RepositoryDetails";
 import { User, Repository } from "../types";
 
-const UserInfoList = "ul";
-const UserInfoListItem: React.FC<ComponentProps<"li">> = props =>
-  props.children ? <li {...props} /> : null;
+import { Row } from "./Row";
+import { RepositoryDetails } from "./RepositoryDetails";
+import { LocationIcon, WebsiteIcon, BriefcaseIcon } from "./icons";
+
+const userDetailsHalfStyles = css`
+  margin: 1.5em 0;
+  padding: 0 0.5em;
+  flex: 1 1 50%;
+`;
+
+const StyledUserInfoList = styled.ul`
+  list-style-type: none;
+  ${userDetailsHalfStyles};
+
+  &:nth-child(2) {
+    border-left: 1px solid ${({ theme }) => theme.colors.text09};
+  }
+`;
+const UserInfoList = (props: ComponentProps<typeof StyledUserInfoList>) =>
+  props.children ? <StyledUserInfoList {...props} /> : null;
+
+interface UserInfoListItemProps extends ComponentProps<"li"> {
+  Icon: ComponentType;
+}
+const UserInfoListItem: React.FC<UserInfoListItemProps> = ({
+  children,
+  Icon,
+  ...rest
+}) =>
+  children ? (
+    <li
+      css={css`
+        display: flex;
+        align-items: center;
+      `}
+      {...rest}
+    >
+      <Icon
+        css={css`
+          width: 1em;
+          margin-right: 0.4em;
+        `}
+      />
+      {children}
+    </li>
+  ) : null;
 
 interface UserWebsiteLinkProps
   extends Omit<ComponentProps<"a">, "href" | "children"> {
@@ -64,14 +105,13 @@ const UserLogin = styled.a`
 `;
 
 const Bio = styled.p`
-  margin: 1.5em;
-  max-width: 20em;
-  text-align: center;
+  ${userDetailsHalfStyles};
 `;
 
 const Repositories = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 
 interface UserDetailsProps {
@@ -86,14 +126,20 @@ export const UserDetails = ({ user, repos }: UserDetailsProps) => {
         <h2>{user.name}</h2>
         <UserLogin href={user.html_url}>{user.login}</UserLogin>
       </UserDetailsHeader>
-      <Bio>{user.bio}</Bio>
-      <UserInfoList>
-        <UserInfoListItem>{user.company}</UserInfoListItem>
-        <UserInfoListItem>{user.location}</UserInfoListItem>
-        <UserInfoListItem>
-          <UserWebsiteLink url={user.blog} />
-        </UserInfoListItem>
-      </UserInfoList>
+      <Row>
+        {user.bio && <Bio>{user.bio}</Bio>}
+        <UserInfoList>
+          <UserInfoListItem Icon={BriefcaseIcon}>
+            {user.company}
+          </UserInfoListItem>
+          <UserInfoListItem Icon={LocationIcon}>
+            {user.location}
+          </UserInfoListItem>
+          <UserInfoListItem Icon={WebsiteIcon}>
+            <UserWebsiteLink url={user.blog} />
+          </UserInfoListItem>
+        </UserInfoList>
+      </Row>
       <Repositories>
         {repos.map(repo => (
           <RepositoryDetails key={repo.name} repository={repo} />
